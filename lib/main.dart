@@ -53,7 +53,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     });
   }
 
-  int cartOrder = 1;
+  int cartOrder = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: new Icon(Icons.shopping_cart),
-            label: "Cart",
+            label: "Cart" + "$cartOrder",
           ),
         ],
       ),
