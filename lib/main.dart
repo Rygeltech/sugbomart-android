@@ -7,9 +7,27 @@ import 'package:flutter_page_sugbomart_v1/home.dart';
 import 'package:flutter_page_sugbomart_v1/product.dart';
 import 'package:flutter_page_sugbomart_v1/search.dart';
 import 'package:flutter_page_sugbomart_v1/service.dart';
+import 'cartNumber.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:badges/badges.dart';
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
+void main()  {
   runApp(MyApp());
+
+  // final response = await http.Client().get(Uri.parse('https://sugbomart.com/'));
+  // if(response.statusCode == 200){
+  //   var document = parse(response.body);
+  //   var element = document.getElementsByClassName('cart-count cart-badge--desktop hidden-count')[0].parent;
+  //   // var link = document.getElementsByClassName('cart-count cart-badge--desktop')[0].children[0];
+  //   // var text = link.text;
+  //   var link = element.text;
+  //   print(link);
+  // }
+  // else{
+  //   throw Exception();
+  // }
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +71,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     });
   }
 
-  int cartOrder = 0;
+
+
+  // WebViewPlusController _pluscontroller;
+  // var cartOrder = this._pluscontroller.evaluateJavascript("var z = document.getElementsByClassName('cart-count cart-badge--desktop');");
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +82,9 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.red,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.grey,
         onTap: onTappedBar,
         currentIndex: _currentIndex,
         items: [
@@ -81,8 +105,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.shopping_cart),
-            label: "Cart" + "$cartOrder",
+            icon: new Badge(
+              badgeContent: Text('1',style: TextStyle(color: Colors.white),),
+              badgeColor: Colors.blue,
+              child: Icon(Icons.shopping_cart),
+            ),
+            label: "Cart",
           ),
         ],
       ),
