@@ -10,24 +10,26 @@ import 'package:flutter_page_sugbomart_v1/service.dart';
 import 'cartNumber.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 import 'package:badges/badges.dart';
-import 'package:html/parser.dart';
+import 'package:html/parser.dart' as parser;
 import 'package:http/http.dart' as http;
+import 'package:html/dom.dart' as dom;
+import 'package:web_scraper/web_scraper.dart';
 
-void main()  {
+void main() {
   runApp(MyApp());
 
   // final response = await http.Client().get(Uri.parse('https://sugbomart.com/'));
-  // if(response.statusCode == 200){
+  //
   //   var document = parse(response.body);
-  //   var element = document.getElementsByClassName('cart-count cart-badge--desktop hidden-count')[0].parent;
-  //   // var link = document.getElementsByClassName('cart-count cart-badge--desktop')[0].children[0];
-  //   // var text = link.text;
-  //   var link = element.text;
+  //   var element = document.getElementsByClassName('cart-count cart-badge--desktop')[0].innerHtml;
+  // //   // var link = document.getElementsByClassName('cart-count cart-badge--desktop')[0].children[0];
+  // //   // var text = link.text;
+  //   var link = element;
   //   print(link);
   // }
   // else{
   //   throw Exception();
-  // }
+
 }
 
 class MyApp extends StatelessWidget {
@@ -49,19 +51,40 @@ class MyBottomNavigationBar extends StatefulWidget {
   _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
 }
 
+class cartNumber extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
 
+  String txt ="zzz";
+  void _getData() async {
+    final response = await http.get('https://sugbomart.com/');
+    dom.Document document=parser.parse(response.body);
+
+    txt = document.getElementsByClassName('cart-count cart-badge--desktop')[0].innerHtml.replaceAll("&nbsp;", "");
+    print(txt);
+
+    setState(() {
+      print(txt);
+    });
+  }
 
 
+
+  WebViewPlusController _pluscontroller;/*declaration for WebViewPlusController*/
   int _currentIndex = 0;
   final List<Widget> _children = [
     Home(),
     product(),
     service(),
     search(),
-    cart(),
   ];
 
   void onTappedBar(int index)
@@ -72,7 +95,6 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   }
 
 
-
   // WebViewPlusController _pluscontroller;
   // var cartOrder = this._pluscontroller.evaluateJavascript("var z = document.getElementsByClassName('cart-count cart-badge--desktop');");
 
@@ -80,6 +102,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: _children[_currentIndex],
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     _getData();
+      //   },
+      //   child: Icon(Icons.refresh),
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.red,
@@ -106,16 +134,26 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: new Badge(
-              badgeContent: Text('1',style: TextStyle(color: Colors.white),),
+              badgeContent: Text('${txt}',style: TextStyle(color: Colors.white),),
               badgeColor: Colors.blue,
               child: Icon(Icons.shopping_cart),
             ),
             label: "Cart",
           ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.account_balance_wallet),
+            label: "Search",
+          ),
         ],
       ),
     );
   }
+
+  void _readJS(BuildContext html) async{
+    var html = await _pluscontroller.evaluateJavascript("document.getElementsByClassName('cart-count cart-badge--desktop')[0].innerHTML");
+    print('${html}');
+  }
+
 }
 
 
