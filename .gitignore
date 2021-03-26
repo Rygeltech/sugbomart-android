@@ -9,6 +9,7 @@
 .history
 .svn/
 cardNumber.dart
+cart.dart
 
 # IntelliJ related
 *.iml

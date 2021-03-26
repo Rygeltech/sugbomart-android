@@ -132,18 +132,18 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             icon: new Icon(Icons.search),
             label: "Search",
           ),
-          BottomNavigationBarItem(
-            icon: new Badge(
-              badgeContent: Text('${txt}',style: TextStyle(color: Colors.white),),
-              badgeColor: Colors.blue,
-              child: Icon(Icons.shopping_cart),
-            ),
-            label: "Cart",
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.account_balance_wallet),
-            label: "Search",
-          ),
+          // BottomNavigationBarItem(
+          //   icon: new Badge(
+          //     badgeContent: Text('${txt}',style: TextStyle(color: Colors.white),),
+          //     badgeColor: Colors.blue,
+          //     child: Icon(Icons.shopping_cart),
+          //   ),
+          //   label: "Cart",
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: new Icon(Icons.account_balance_wallet),
+          //   label: "Search",
+          // ),
         ],
       ),
     );

@@ -4,9 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
-import 'package:html/parser.dart' as parser;
-import 'package:http/http.dart' as http;
-import 'package:html/dom.dart' as dom;
 
 class Home extends StatefulWidget {
   @override
@@ -32,73 +29,135 @@ class _HomeState extends State<Home> {
   }
 
 
+  // Future<void> _launchInWebViewOrVC(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(
+  //       url,
+  //       forceSafariVC: true,
+  //       forceWebView: true,
+  //       headers: <String, String>{'my_header_key': 'my_header_value'},
+  //     );
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
+
+  // Future<void> _launchInWebViewWithJavaScript(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(
+  //       url,
+  //       forceSafariVC: true,
+  //       forceWebView: true,
+  //       enableJavaScript: true,
+  //     );
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
+
+  // Future<void> _launchInWebViewWithDomStorage(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(
+  //       url,
+  //       forceSafariVC: true,
+  //       forceWebView: true,
+  //       enableDomStorage: true,
+  //     );
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
+
+  // Future<void> _launchUniversalLinkIos(String url) async {
+  //   if (await canLaunch(url)) {
+  //     final bool nativeAppLaunchSucceeded = await launch(
+  //       url,
+  //       forceSafariVC: false,
+  //       universalLinksOnly: true,
+  //     );
+  //     if (!nativeAppLaunchSucceeded) {
+  //       await launch(
+  //         url,
+  //         forceSafariVC: true,
+  //       );
+  //     }
+  //   }
+  // }
+
+  // Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+  //   if (snapshot.hasError) {
+  //     return Text('Error: ${snapshot.error}');
+  //   } else {
+  //     return const Text('');
+  //   }
+  // }
+
+  // Future<void> _makePhoneCall(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   final globalKey = GlobalKey<ScaffoldState>();
   final Completer<WebViewController> _controller = Completer<WebViewController>();
   WebViewPlusController _pluscontroller;/*declaration for WebViewPlusController*/
-  String html = "zzz";
-
-  void _readJS(BuildContext context) async{
-    final response = await http.get('https://sugbomart.com/');
-    dom.Document document=parser.parse(response.body);
-    html = await _pluscontroller.evaluateJavascript(document.getElementsByClassName('cart-count cart-badge--desktop')[0].innerHtml);
-    print(html);
-    setState(() {
-      print(html);
-    });
-  }
-
+  var a;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext html) {
     return new Scaffold(
-      // key: globalKey,
+      key: globalKey,
       // appBar: new AppBar(
-      //   title: new Text('$html'),
+      //   title: new Text("Home Page"),
       // ),
       body: SafeArea(
         child: WebViewPlus(
           initialUrl: 'https://sugbomart.com/',
           javascriptMode: JavascriptMode.unrestricted,
           gestureNavigationEnabled: true,
-          onWebViewCreated: (WebViewPlusController webViewPlusController){
-            // _controller.complete(webViewController);
-            this._pluscontroller = webViewPlusController;
+          onWebViewCreated: (WebViewController webViewController){
+            _controller.complete(webViewController);
+            this._pluscontroller = webViewController;
           },
 
 
           /*Ari mo gawas ang Updated Output sa Webview Sir*/
           onPageFinished: (_) {
-            // var thingtoRemove = "document.querySelectorAll('.messengermessageus--fixed facebook-message-us-button')[0];";
+            // var thingtoRemove = "document.querySelecto rAll('.messengermessageus--fixed facebook-message-us-button')[0];";
             // _controller.evaluateJavascript("document.querySelector('#messageus_button > img.messageus_unhovered')[0].style.display = 'none';");
             // _controller.evaluateJavascript("document.querySelector('#messageus_button > img.messageus_hovered')[0].style.display = 'none';");
             // this._pluscontroller.evaluateJavascript("var z = document.getElementsByClassName('cart-count cart-badge--desktop');"
             //     // "document.getElementsByClassName('h1  section-header--left')[0].innerHTML = z[0].innerHTML;"
             // );
             // _z = _pluscontroller.evaluateJavascript("var z");
-            _readJS(context);
+            // readJS(html);
           },
           navigationDelegate: (request) {
             return _buildNavigationDecision(request);
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-            // var jsEval = _pluscontroller.evaluateJavascript("document.getElementsByClassName('cart-count cart-badge--desktop').innerHTML;");
-            //  _readJS(context);/*Mao ni ang Action once e Click ang floatingActionButton then mo output sad ang katong cartNumber*/
-
-
-        },
-        child: Text(
-          '$html',
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     setState(() {
+      //       // var jsEval = _pluscontroller.evaluateJavascript("document.getElementsByClassName('cart-count cart-badge--desktop').innerHTML;");
+      //       var a = readJS(html);/*Mao ni ang Action once e Click ang floatingActionButton then mo output sad ang katong cartNumber*/
+      //     });
+      //   },
+      //   child: Text(
+      //     '${a.toString()}',
+      //   ),
+      // ),
     );
   }
 
   /*Function ni para sa pag output sa cartNumber*/
-
+  void readJS(BuildContext html) async{
+    var html = await _pluscontroller.evaluateJavascript("document.getElementsByClassName('cart-count cart-badge--desktop')[0].innerHTML");
+    print(html);
+  }
 
   NavigationDecision _buildNavigationDecision(NavigationRequest request) {
     const String toLaunch = 'https://www.messenger.com/t/104467195013003/?ref=messenger_commerce_1163199097047119_https%3A%2F%2Fsugbomart.com%2F&messaging_source=source%3Apages%3Amessage_shortlink';
