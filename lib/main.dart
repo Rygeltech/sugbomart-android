@@ -112,7 +112,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.red,
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: Colors.blue[300],
+        selectedLabelStyle: TextStyle(color: Colors.blue[200]),
         onTap: onTappedBar,
         currentIndex: _currentIndex,
         items: [
