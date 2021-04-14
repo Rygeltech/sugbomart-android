@@ -130,7 +130,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Afte
     return showDialog(
         context: context,
         builder: (context)=>AlertDialog(
-          title: Text("Do you really want to exit the program?"),
+          title: Text("Do you really want to exit SugboMart App?"),
           actions: <Widget>[
             TextButton(
               child: Text("No"),
