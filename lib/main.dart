@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyBottomNavigationBar(),
     );
   }
@@ -80,7 +81,6 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> with Afte
   }
 
   void _getCart() async {
-
   }
 
   void showHelloWorld() {
