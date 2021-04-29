@@ -1,4 +1,4 @@
-package com.example.flutter_page_sugbomart_v1
+package com.rygeltechnologysolutions.sugbomart_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
