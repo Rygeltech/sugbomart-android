@@ -1,4 +1,4 @@
-# Miscellaneous
+git# Miscellaneous
 *.class
 *.log
 *.pyc
@@ -8,6 +8,8 @@
 .buildlog/
 .history
 .svn/
+cardNumber.dart
+cart.dart
 
 # IntelliJ related
 *.iml
